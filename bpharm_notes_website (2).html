@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PharmaVault — B.Pharm Notes Mumbai University</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FAF8F3;--white:#FFFFFF;--ink:#1A1A2E;--ink2:#2D2D44;--muted:#6B6B85;--accent:#3D5A80;--accent2:#98C1D9;--gold:#C9A84C;--gold-light:#F5E6C0;--green:#2D6A4F;--green-light:#D8F3DC;--border:rgba(26,26,46,0.1);--shadow:0 4px 40px rgba(26,26,46,0.08);--shadow-lg:0 12px 60px rgba(26,26,46,0.14)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(250,248,243,0.94);backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-0.02em;text-decoration:none}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{font-size:14px;font-weight:400;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--ink)!important;color:var(--cream)!important;padding:8px 20px;border-radius:100px;font-weight:500!important}
+.nav-cta:hover{background:var(--accent)!important}
+.search-wrap{flex:1;max-width:300px;margin:0 2rem;position:relative}
+.search-input{width:100%;padding:8px 16px 8px 36px;border:0.5px solid var(--border);border-radius:100px;background:var(--white);font-size:13px;color:var(--ink);font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
+.search-input:focus{border-color:var(--accent)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;color:var(--muted)}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--white);border:0.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);display:none;z-index:300;max-height:220px;overflow-y:auto}
+.search-result-item{padding:10px 16px;font-size:13px;color:var(--ink);cursor:pointer;border-bottom:0.5px solid var(--border);transition:background 0.15s}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:hover{background:var(--cream)}
+.res-label{font-size:11px;color:var(--muted);display:block}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:8rem 3rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(61,90,128,0.07) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 20% 80%,rgba(201,168,76,0.06) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.4;pointer-events:none}
+.hero-inner{max-width:860px;text-align:center;position:relative;z-index:1}
+.mu-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(61,90,128,0.08);border:0.5px solid rgba(61,90,128,0.2);color:var(--accent);font-size:11px;font-weight:600;padding:4px 14px;border-radius:100px;margin-bottom:12px;letter-spacing:0.04em;animation:fadeUp 0.5s ease both}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--gold-light);border:0.5px solid rgba(201,168,76,0.3);color:#8B6914;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:6px 16px;border-radius:100px;margin-bottom:2rem;text-transform:uppercase;animation:fadeUp 0.5s 0.05s ease both}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(42px,6vw,72px);font-weight:700;line-height:1.1;letter-spacing:-0.03em;color:var(--ink);margin-bottom:1.5rem;animation:fadeUp 0.5s 0.1s ease both}
+.hero-title em{color:var(--accent);font-style:normal}
+.hero-sub{font-size:18px;font-weight:300;color:var(--muted);line-height:1.7;max-width:580px;margin:0 auto 2.5rem;animation:fadeUp 0.5s 0.15s ease both}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.5s 0.2s ease both}
+.btn-primary{background:var(--ink);color:var(--cream);padding:14px 32px;border-radius:100px;font-size:15px;font-weight:500;text-decoration:none;transition:all 0.2s;border:1.5px solid var(--ink);display:inline-block}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--ink);padding:14px 32px;border-radius:100px;font-size:15px;font-weight:500;text-decoration:none;transition:all 0.2s;border:1.5px solid var(--border);display:inline-block}
+.btn-outline:hover{border-color:var(--ink);transform:translateY(-1px)}
+.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem;padding-top:3rem;border-top:0.5px solid var(--border);animation:fadeUp 0.5s 0.25s ease both}
+.stat{text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--ink)}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em}
+.trust-strip{background:rgba(61,90,128,0.05);border-top:0.5px solid rgba(61,90,128,0.12);border-bottom:0.5px solid rgba(61,90,128,0.12);padding:12px 3rem;display:flex;align-items:center;gap:2rem;justify-content:center;flex-wrap:wrap}
+.trust-item{font-size:12px;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:5px}
+.trust-item::before{content:'✓';font-weight:700}
+section{padding:6rem 3rem}
+.section-label{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.2;letter-spacing:-0.02em;color:var(--ink);margin-bottom:1rem}
+.section-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:480px}
+.section-head{max-width:1100px;margin:0 auto 3rem}
+#semesters{background:var(--white)}
+.sem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:1100px;margin:0 auto;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.sem-card{background:var(--white);padding:2rem 1.5rem;text-decoration:none;color:var(--ink);transition:all 0.25s;border-right:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.sem-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.sem-card:hover{background:rgba(61,90,128,0.03)}
+.sem-card:hover::before{transform:scaleX(1)}
+.sem-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:rgba(26,26,46,0.06);line-height:1;margin-bottom:8px}
+.sem-title{font-size:15px;font-weight:600;margin-bottom:4px}
+.sem-mu-tag{font-size:10px;color:var(--accent);background:rgba(61,90,128,0.08);padding:2px 8px;border-radius:100px;font-weight:500;display:inline-block;margin-bottom:8px}
+.sem-subjects{font-size:12px;color:var(--muted);line-height:1.7}
+.sem-arrow{position:absolute;top:1.5rem;right:1.5rem;font-size:18px;color:var(--muted);transition:all 0.2s}
+.sem-card:hover .sem-arrow{color:var(--accent);transform:translate(2px,-2px)}
+#features{background:var(--cream)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto}
+.feature-card{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:2rem;transition:all 0.25s}
+.feature-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:1.25rem}
+.icon-blue{background:rgba(61,90,128,0.1)}.icon-gold{background:var(--gold-light)}.icon-green{background:var(--green-light)}
+.feature-title{font-size:16px;font-weight:600;margin-bottom:8px}
+.feature-desc{font-size:14px;color:var(--muted);line-height:1.7}
+.feature-card.upload-card{background:var(--ink);border-color:var(--ink)}
+.feature-card.upload-card .feature-title{color:var(--cream)}
+.feature-card.upload-card .feature-desc{color:rgba(250,248,243,0.6)}
+.feature-badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:100px;margin-top:1rem;text-decoration:none}
+.badge-blue{background:rgba(61,90,128,0.1);color:var(--accent)}
+.badge-gold{background:var(--gold-light);color:#8B6914}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-white{background:rgba(250,248,243,0.15);color:var(--cream)}
+#bundles{background:var(--white)}
+.bundles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:0 auto}
+.bundle-card{border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;background:var(--white);transition:all 0.25s;position:relative;overflow:hidden}
+.bundle-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.bundle-card.highlight{border-color:var(--gold);background:#FFFDF7}
+.bundle-tag{position:absolute;top:1rem;right:1rem;font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:0.05em}
+.tag-hot{background:#FFE8E8;color:#C0392B}.tag-new{background:var(--green-light);color:var(--green)}.tag-val{background:var(--gold-light);color:#8B6914}
+.bundle-sem{font-size:11px;color:var(--accent);font-weight:600;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:6px}
+.bundle-title{font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.3;padding-right:60px}
+.bundle-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.bundle-includes{list-style:none;margin-bottom:1.25rem}
+.bundle-includes li{font-size:12px;color:var(--muted);padding:3px 0;display:flex;align-items:center;gap:6px}
+.bundle-includes li::before{content:'✓';color:var(--green);font-weight:700;font-size:11px;flex-shrink:0}
+.bundle-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:1rem}
+.bundle-price{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--ink)}
+.bundle-old{font-size:13px;color:var(--muted);text-decoration:line-through}
+.bundle-btn{width:100%;padding:10px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.bundle-btn-dark{background:var(--ink);color:var(--cream)}.bundle-btn-dark:hover{background:var(--accent)}
+.bundle-btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--border)}.bundle-btn-outline:hover{border-color:var(--ink)}
+#affiliate{background:var(--cream)}
+.affiliate-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1100px;margin:0 auto}
+.aff-card{background:var(--white);border:0.5px solid var(--border);border-radius:14px;padding:1.25rem;text-align:center;transition:all 0.25s;text-decoration:none;color:var(--ink);display:block}
+.aff-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.aff-emoji{font-size:28px;margin-bottom:10px}
+.aff-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.aff-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px}
+.aff-commission{font-size:11px;font-weight:600;color:var(--green);background:var(--green-light);padding:3px 8px;border-radius:100px;display:inline-block}
+.aff-note{max-width:1100px;margin:1.5rem auto 0;background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.5rem;font-size:13px;color:var(--muted);line-height:1.7}
+.aff-note strong{color:var(--ink)}
+#coaching{background:var(--ink)}
+.coaching-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:0 auto}
+.coaching-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:1.75rem;transition:all 0.25s}
+.coaching-card:hover{background:rgba(255,255,255,0.08)}
+.coaching-logo{font-size:28px;margin-bottom:12px}
+.coaching-name{font-size:15px;font-weight:600;color:var(--cream);margin-bottom:4px}
+.coaching-type{font-size:11px;color:var(--accent2);margin-bottom:10px;font-weight:500}
+.coaching-desc{font-size:13px;color:rgba(250,248,243,0.5);line-height:1.6;margin-bottom:1.25rem}
+.coaching-btn{width:100%;padding:10px;border-radius:100px;background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.15);color:var(--cream);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.coaching-btn:hover{background:rgba(255,255,255,0.18)}
+#predictor{background:var(--cream)}
+.predictor-panel{max-width:620px;margin:0 auto;background:var(--white);border:0.5px solid var(--border);border-radius:20px;padding:2.5rem;position:relative}
+.beta-pill{position:absolute;top:1.25rem;right:1.25rem;font-size:10px;font-weight:700;letter-spacing:0.1em;background:var(--gold-light);color:#8B6914;padding:4px 10px;border-radius:100px}
+.pred-title{font-size:18px;font-weight:600;margin-bottom:6px}
+.pred-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6}
+.pred-select{width:100%;padding:12px 14px;border:0.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--ink);font-family:'DM Sans',sans-serif;outline:none;background:var(--cream);transition:border-color 0.2s;margin-bottom:12px}
+.pred-select:focus{border-color:var(--accent)}
+.pred-btn{width:100%;padding:12px;border-radius:100px;background:var(--ink);color:var(--cream);border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.pred-btn:hover{background:var(--accent)}
+.pred-result{margin-top:1.25rem;padding:1rem 1.25rem;background:rgba(61,90,128,0.05);border:0.5px solid rgba(61,90,128,0.15);border-radius:12px;display:none}
+.pred-result-title{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--accent)}
+.pred-result-text{font-size:13px;color:var(--muted);line-height:1.7}
+#upload{background:var(--ink2)}
+.upload-panel{max-width:700px;margin:0 auto;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.12);border-radius:20px;padding:3rem}
+.upload-tabs{display:flex;gap:4px;margin-bottom:2rem;background:rgba(255,255,255,0.06);border-radius:100px;padding:4px}
+.utab{flex:1;text-align:center;padding:8px;font-size:13px;color:rgba(250,248,243,0.5);cursor:pointer;border-radius:100px;transition:all 0.2s}
+.utab.active{background:var(--white);color:var(--ink);font-weight:500}
+.upload-form{display:flex;flex-direction:column;gap:16px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:12px;color:rgba(250,248,243,0.5);font-weight:500;letter-spacing:0.04em}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.15);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--cream);font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(250,248,243,0.25)}
+.form-group select option{background:var(--ink2)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent2)}
+.drop-zone{border:1.5px dashed rgba(255,255,255,0.2);border-radius:12px;padding:2rem;text-align:center;cursor:pointer;transition:all 0.2s}
+.drop-zone:hover{border-color:var(--accent2);background:rgba(152,193,217,0.05)}
+.drop-icon{font-size:32px;margin-bottom:10px}
+.drop-text{font-size:14px;color:rgba(250,248,243,0.5)}
+.drop-text strong{color:var(--cream)}
+.upload-btn{background:var(--cream);color:var(--ink);border:none;border-radius:100px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.upload-btn:hover{background:var(--accent2);transform:translateY(-1px)}
+#shop{background:var(--cream)}
+.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto}
+.shop-card{background:var(--white);border:0.5px solid var(--border);border-radius:20px;padding:2rem;position:relative;transition:all 0.25s;overflow:hidden}
+.shop-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.shop-card.featured{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.popular-tag{position:absolute;top:1.25rem;right:1.25rem;background:var(--gold);color:var(--ink);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px}
+.shop-emoji{font-size:32px;margin-bottom:1rem}
+.shop-title{font-size:17px;font-weight:600;margin-bottom:8px}
+.shop-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.5rem}
+.shop-card.featured .shop-desc{color:rgba(250,248,243,0.6)}
+.shop-card.featured .shop-title{color:var(--cream)}
+.price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:1.25rem}
+.price{font-family:'Playfair Display',serif;font-size:28px;font-weight:700}
+.price-old{font-size:14px;color:var(--muted);text-decoration:line-through}
+.shop-btn{width:100%;padding:12px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.shop-btn-dark{background:var(--ink);color:var(--cream)}.shop-btn-dark:hover{background:var(--accent)}
+.shop-btn-light{background:var(--cream);color:var(--ink)}.shop-btn-light:hover{background:var(--accent2)}
+.shop-btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--border)}.shop-btn-outline:hover{border-color:var(--ink)}
+.payment-note{max-width:1100px;margin:1.5rem auto 0;padding:1.25rem 1.75rem;background:var(--white);border:0.5px solid var(--border);border-radius:16px;font-size:13px;color:var(--muted);line-height:1.8}
+.payment-note strong{color:var(--ink)}
+.modal-overlay{position:fixed;inset:0;background:rgba(26,26,46,0.65);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:20px;padding:2rem;max-width:420px;width:100%;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1;padding:4px}
+.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:1.25rem;line-height:1.6}
+.modal-amount{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--ink);margin-bottom:1.5rem}
+.modal-upi-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.upi-btn{padding:12px 6px;border-radius:12px;border:0.5px solid var(--border);background:var(--cream);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;transition:all 0.2s;color:var(--ink)}
+.upi-btn:hover{border-color:var(--accent);background:rgba(61,90,128,0.05)}
+.modal-divider{text-align:center;font-size:12px;color:var(--muted);margin-bottom:1.25rem;padding:0 1rem;position:relative}
+.modal-divider::before,.modal-divider::after{content:'';position:absolute;top:50%;width:35%;height:0.5px;background:var(--border)}
+.modal-divider::before{left:0}.modal-divider::after{right:0}
+.modal-confirm-form{display:flex;flex-direction:column;gap:10px}
+.modal-input{padding:12px 14px;border:0.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--ink);font-family:'DM Sans',sans-serif;outline:none;background:var(--cream);transition:border-color 0.2s}
+.modal-input:focus{border-color:var(--accent)}
+.modal-wa-btn{width:100%;padding:12px;border-radius:100px;background:#25D366;color:white;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.modal-wa-btn:hover{background:#1DA851}
+footer{background:var(--ink2);color:rgba(250,248,243,0.5);padding:3rem;text-align:center}
+.footer-logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--cream);font-weight:700;margin-bottom:12px}
+.footer-logo span{color:var(--accent2)}
+footer p{font-size:13px;line-height:1.8}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:900px){
+  nav{padding:1rem 1.25rem}
+  .nav-links{display:none}
+  .search-wrap{max-width:150px;margin:0 1rem}
+  section{padding:4rem 1.5rem}
+  .hero{padding:7rem 1.5rem 3rem}
+  .sem-grid,.features-grid,.bundles-grid,.shop-grid,.coaching-grid{grid-template-columns:repeat(2,1fr)}
+  .affiliate-grid{grid-template-columns:repeat(2,1fr)}
+  .form-row{grid-template-columns:1fr}
+  .hero-stats{gap:1.5rem}
+  .modal-upi-btns{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:500px){
+  .sem-grid,.features-grid,.bundles-grid,.shop-grid,.coaching-grid,.affiliate-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Pharma<span>Vault</span></a>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search subjects…" autocomplete="off">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+  <div class="nav-links">
+    <a href="#semesters">Semesters</a>
+    <a href="#bundles">Bundles</a>
+    <a href="#predictor">Predictor</a>
+    <a href="#upload">Upload</a>
+    <a href="#shop" class="nav-cta">Get Notes →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="mu-badge">✦ MU 2026 Syllabus Compliant · PCI Guidelines</div>
+    <div class="hero-tag">B.Pharm — All 8 Semesters · Mumbai University</div>
+    <h1 class="hero-title">Your complete<br><em>pharmacy notes</em><br>library</h1>
+    <p class="hero-sub">Curated notes, PYQs, crash courses and expected questions for every semester — built specifically for Mumbai University B.Pharm students.</p>
+    <div class="hero-actions">
+      <a href="#semesters" class="btn-primary">Explore semesters</a>
+      <a href="#bundles" class="btn-outline">View exam bundles</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">Semesters</div></div>
+      <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Subjects</div></div>
+      <div class="stat"><div class="stat-num">200+</div><div class="stat-label">PYQs</div></div>
+      <div class="stat"><div class="stat-num">₹49</div><div class="stat-label">Starting price</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-strip">
+  <div class="trust-item">MU 2026 Syllabus Compliant</div>
+  <div class="trust-item">Based on PCI Guidelines</div>
+  <div class="trust-item">5 Years PYQ Analysis</div>
+  <div class="trust-item">Delivered in 10 mins via WhatsApp</div>
+  <div class="trust-item">UPI · GPay · PhonePe · Paytm</div>
+</div>
+
+<section id="semesters">
+  <div class="section-head reveal">
+    <div class="section-label">Browse by semester</div>
+    <h2 class="section-title">Choose your semester</h2>
+    <p class="section-sub">Tap any semester to access notes, PYQs, crash plans and expected questions — aligned to the MU 2026 syllabus.</p>
+  </div>
+  <div class="sem-grid" id="semester-grid"></div>
+</section>
+
+<section id="features">
+  <div class="section-head reveal">
+    <div class="section-label">What's inside</div>
+    <h2 class="section-title">Everything you need to ace exams</h2>
+    <p class="section-sub">Built specifically for Mumbai University B.Pharm students who want quality without the clutter.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-blue">📝</div>
+      <div class="feature-title">Curated notes</div>
+      <div class="feature-desc">Handpicked, structured notes for every subject. Updated annually based on PCI syllabus and MU exam patterns.</div>
+      <span class="feature-badge badge-blue">All 8 semesters</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-gold">⚡</div>
+      <div class="feature-title">1-day crash course</div>
+      <div class="feature-desc">Last-minute crash plans built around high-probability MU questions. Hour-by-hour schedule with priority flags.</div>
+      <span class="feature-badge badge-gold">Exam-ready</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-green">🔁</div>
+      <div class="feature-title">MU PYQ bank 2019–2024</div>
+      <div class="feature-desc">Mumbai University previous year questions with chapter-wise tagging. See exactly which topics repeat every year.</div>
+      <span class="feature-badge badge-green">5 years compiled</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-blue">🎯</div>
+      <div class="feature-title">Expected questions</div>
+      <div class="feature-desc">High-probability questions for each MU subject based on pattern analysis. Separate lists for 2-mark, 5-mark and long answers.</div>
+      <span class="feature-badge badge-blue">Pattern-based</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-gold">💡</div>
+      <div class="feature-title">Key points & mnemonics</div>
+      <div class="feature-desc">Quick-revision sheets with must-remember facts, drug classifications and memory tricks for last-minute recall.</div>
+      <span class="feature-badge badge-gold">Rapid revision</span>
+    </div>
+    <div class="feature-card upload-card reveal">
+      <div class="feature-icon" style="background:rgba(255,255,255,0.1)">📤</div>
+      <div class="feature-title">Upload your own notes</div>
+      <div class="feature-desc">Contribute your notes to the MU community. Upload PDFs, label by subject and semester.</div>
+      <a href="#upload" class="feature-badge badge-white" style="display:inline-block;text-decoration:none">Upload now →</a>
+    </div>
+  </div>
+</section>
+
+<section id="bundles">
+  <div class="section-head reveal">
+    <div class="section-label">Exam night packs — from ₹49</div>
+    <h2 class="section-title">Sachet bundles</h2>
+    <p class="section-sub">Smart, high-value combos built around your exact MU exam — not just one subject, the whole package you actually need.</p>
+  </div>
+  <div class="bundles-grid" id="bundles-grid"></div>
+</section>
+
+<section id="affiliate">
+  <div class="section-head reveal">
+    <div class="section-label">Recommended gear</div>
+    <h2 class="section-title">Tools every B.Pharm student needs</h2>
+    <p class="section-sub">Handpicked resources we personally use and recommend. Affiliate links — your purchase helps keep PharmaVault running.</p>
+  </div>
+  <div class="affiliate-grid">
+    <a href="#" class="aff-card reveal">
+      <div class="aff-emoji">🧮</div>
+      <div class="aff-title">Scientific Calculator</div>
+      <div class="aff-desc">Casio FX-991ES Plus — essential for pharmacokinetics and biopharmaceutics calculations.</div>
+      <span class="aff-commission">~8% commission</span>
+    </a>
+    <a href="#" class="aff-card reveal">
+      <div class="aff-emoji">📖</div>
+      <div class="aff-title">Nirali Prakashan Books</div>
+      <div class="aff-desc">The standard MU reference books — Pharmacology, Pharmaceutics, Pharm Chemistry and more.</div>
+      <span class="aff-commission">~6% commission</span>
+    </a>
+    <a href="#" class="aff-card reveal">
+      <div class="aff-emoji">🧬</div>
+      <div class="aff-title">Organic Chemistry Model Kit</div>
+      <div class="aff-desc">3D molecular model set — makes medicinal chemistry and SAR much easier to understand.</div>
+      <span class="aff-commission">~10% commission</span>
+    </a>
+    <a href="#" class="aff-card reveal">
+      <div class="aff-emoji">🥼</div>
+      <div class="aff-title">Lab Coat & Safety Gear</div>
+      <div class="aff-desc">Standard pharma lab coat + safety goggles. Mandatory for practical sessions at MU colleges.</div>
+      <span class="aff-commission">~7% commission</span>
+    </a>
+  </div>
+  <div class="aff-note reveal">
+    <strong>About affiliate links:</strong> These are Amazon Associates links. When you buy through our link, we earn a small commission (5–10%) at no extra cost to you. This helps us keep the free notes running. We only recommend products we genuinely find useful for B.Pharm students.
+  </div>
+</section>
+
+<section id="coaching" style="padding:6rem 3rem">
+  <div class="section-head reveal" style="color:var(--cream)">
+    <div class="section-label" style="color:var(--accent2)">GPAT · NIPER · Competitive exams</div>
+    <h2 class="section-title" style="color:var(--cream)">Coaching partners</h2>
+    <p class="section-sub" style="color:rgba(250,248,243,0.5)">Trusted institutes for B.Pharm students preparing for GPAT, NIPER, and Drug Inspector exams.</p>
+  </div>
+  <div class="coaching-grid">
+    <div class="coaching-card reveal">
+      <div class="coaching-logo">🎓</div>
+      <div class="coaching-name">GPAT Academy</div>
+      <div class="coaching-type">GPAT · NIPER Entrance</div>
+      <div class="coaching-desc">Comprehensive GPAT preparation with mock tests, subject-wise analysis and expert faculty. 2000+ students trained.</div>
+      <button class="coaching-btn" onclick="openWA('GPAT Academy free demo')">Join free demo →</button>
+    </div>
+    <div class="coaching-card reveal">
+      <div class="coaching-logo">💊</div>
+      <div class="coaching-name">PharmaCoach India</div>
+      <div class="coaching-type">Drug Inspector · Licensing Exams</div>
+      <div class="coaching-desc">Specialised coaching for Maharashtra Drug Inspector and state licensing exams. Detailed legal and regulatory coverage.</div>
+      <button class="coaching-btn" onclick="openWA('PharmaCoach India free demo')">Join free demo →</button>
+    </div>
+    <div class="coaching-card reveal">
+      <div class="coaching-logo">🔬</div>
+      <div class="coaching-name">NIPERPrep Hub</div>
+      <div class="coaching-type">NIPER · Research Entrance</div>
+      <div class="coaching-desc">Online + offline batches for NIPER JEE. Research-oriented curriculum with high selection rates in previous batches.</div>
+      <button class="coaching-btn" onclick="openWA('NIPERPrep Hub free demo')">Join free demo →</button>
+    </div>
+  </div>
+</section>
+
+<section id="predictor">
+  <div class="section-head reveal">
+    <div class="section-label">AI-powered · Coming soon</div>
+    <h2 class="section-title">MU Exam Predictor</h2>
+    <p class="section-sub">Our algorithm is analyzing 5 years of Mumbai University papers to predict your most likely 2026 questions.</p>
+  </div>
+  <div class="predictor-panel reveal">
+    <span class="beta-pill">BETA</span>
+    <div class="pred-title">Predict my exam questions</div>
+    <div class="pred-sub">Select your subject and semester. We'll return the top expected questions based on MU paper pattern analysis.</div>
+    <select class="pred-select" id="predSem">
+      <option value="">Select semester</option>
+      <option>Semester I</option><option>Semester II</option><option>Semester III</option><option>Semester IV</option>
+      <option>Semester V</option><option>Semester VI</option><option>Semester VII</option><option>Semester VIII</option>
+    </select>
+    <select class="pred-select" id="predSubj">
+      <option value="">Select subject</option>
+      <option>Pharmacology</option><option>Pharmaceutics</option><option>Pharmaceutical Chemistry</option>
+      <option>Pharmacognosy</option><option>Biopharmaceutics</option><option>Medicinal Chemistry</option>
+    </select>
+    <button class="pred-btn" onclick="runPredictor()">Predict my 2026 questions →</button>
+    <div class="pred-result" id="predResult">
+      <div class="pred-result-title">🤖 PharmaVault Predictor — Mumbai University 2026</div>
+      <div class="pred-result-text" id="predText"></div>
+    </div>
+  </div>
+</section>
+
+<section id="upload">
+  <div class="section-head reveal">
+    <div class="section-label" style="color:var(--accent2)">Contribute</div>
+    <h2 class="section-title" style="color:var(--cream)">Upload your notes</h2>
+    <p class="section-sub" style="color:rgba(250,248,243,0.5)">Share your handwritten or typed notes with the MU community. Upload PYQs, crash plans or subject summaries.</p>
+  </div>
+  <div class="upload-panel reveal">
+    <div class="upload-tabs">
+      <div class="utab active" onclick="switchTab(this)">Notes / PDF</div>
+      <div class="utab" onclick="switchTab(this)">PYQ</div>
+      <div class="utab" onclick="switchTab(this)">Crash plan</div>
+    </div>
+    <div class="upload-form">
+      <div class="form-row">
+        <div class="form-group"><label>Subject name</label><input type="text" placeholder="e.g. Pharmacology II"></div>
+        <div class="form-group"><label>Semester</label>
+          <select>
+            <option value="">Select semester</option>
+            <option>Semester I</option><option>Semester II</option><option>Semester III</option><option>Semester IV</option>
+            <option>Semester V</option><option>Semester VI</option><option>Semester VII</option><option>Semester VIII</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>University / College</label><input type="text" placeholder="e.g. Mumbai University · ICT Mumbai · HSBPVT"></div>
+      <div class="form-group"><label>Short description</label><textarea rows="2" placeholder="What topics are covered in your notes?"></textarea></div>
+      <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" style="display:none" accept=".pdf,.jpg,.png,.docx">
+        <div class="drop-icon">📂</div>
+        <div class="drop-text"><strong>Click to choose file</strong> or drag & drop here<br>PDF, images, Word — max 20MB</div>
+      </div>
+      <button class="upload-btn">Upload notes →</button>
+    </div>
+  </div>
+</section>
+
+<section id="shop">
+  <div class="section-head reveal">
+    <div class="section-label">Premium resources</div>
+    <h2 class="section-title">Get the full notes</h2>
+    <p class="section-sub">Delivered via WhatsApp within 10 minutes of payment. UPI accepted — no login needed.</p>
+  </div>
+  <div class="shop-grid">
+    <div class="shop-card reveal">
+      <div class="shop-emoji">📄</div>
+      <div class="shop-title">Free sample PYQ pack</div>
+      <div class="shop-desc">Last 3 years' Pharmacology questions from Mumbai University. Best way to see what we offer.</div>
+      <div class="price-row"><span class="price">Free</span></div>
+      <button class="shop-btn shop-btn-outline" onclick="openWA('free PYQ sample pack')">Get free via WhatsApp</button>
+    </div>
+    <div class="shop-card featured reveal">
+      <div class="popular-tag">Most popular</div>
+      <div class="shop-emoji">📚</div>
+      <div class="shop-title">Complete MU bundle</div>
+      <div class="shop-desc">All 4 core subjects — full notes, MU PYQs 2019–2024, 1-day crash plan, expected questions. 200+ pages.</div>
+      <div class="price-row">
+        <span class="price" style="color:var(--cream)">₹299</span>
+        <span class="price-old" style="color:rgba(250,248,243,0.4)">₹599</span>
+      </div>
+      <button class="shop-btn shop-btn-light" onclick="openPayment(299,'Complete MU Bundle')">Buy now — ₹299</button>
+    </div>
+    <div class="shop-card reveal">
+      <div class="shop-emoji">⚡</div>
+      <div class="shop-title">1-day crash course</div>
+      <div class="shop-desc">Condensed crash plan with mnemonic sheets. Perfect for the night before your MU exam.</div>
+      <div class="price-row">
+        <span class="price">₹99</span>
+        <span class="price-old">₹199</span>
+      </div>
+      <button class="shop-btn shop-btn-dark" onclick="openPayment(99,'1-Day Crash Course')">Buy now — ₹99</button>
+    </div>
+  </div>
+  <div class="payment-note reveal">
+    <strong>Payment & delivery —</strong> UPI (GPay · PhonePe · Paytm) accepted. Pay → send screenshot on WhatsApp → receive notes within 10 minutes. No login, no subscriptions, no hassle.
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Pharma<span>Vault</span></div>
+  <p>Made for B.Pharm students · Mumbai University · Maharashtra<br>
+  MU 2026 Syllabus Compliant · Based on PCI Guidelines<br>
+  Contact on WhatsApp for orders & queries · © 2026 PharmaVault</p>
+</footer>
+
+<!-- UPI PAYMENT MODAL -->
+<div class="modal-overlay" id="payModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayment()">✕</button>
+    <div class="modal-title">Pay & get your notes</div>
+    <div class="modal-sub" id="modalSubText">Pay via UPI and confirm below — notes delivered to your WhatsApp in minutes.</div>
+    <div class="modal-amount" id="modalAmount">₹299</div>
+    <div class="modal-upi-btns">
+      <button class="upi-btn" onclick="triggerUPI('GPay')">📱 GPay</button>
+      <button class="upi-btn" onclick="triggerUPI('PhonePe')">💜 PhonePe</button>
+      <button class="upi-btn" onclick="triggerUPI('Paytm')">🔵 Paytm</button>
+      <button class="upi-btn" onclick="triggerUPI('UPI')">⚡ Any UPI</button>
+      <button class="upi-btn" id="copyBtn" onclick="copyUPI()">📋 Copy UPI ID</button>
+      <button class="upi-btn" id="copiedBtn" style="display:none;background:var(--green-light);color:var(--green);border-color:var(--green)">✓ Copied!</button>
+    </div>
+    <div class="modal-divider">After paying, confirm here</div>
+    <div class="modal-confirm-form">
+      <input class="modal-input" type="text" id="payerName" placeholder="Your name">
+      <input class="modal-input" type="tel" id="payerWA" placeholder="Your WhatsApp number">
+      <input class="modal-input" type="text" id="payerTxn" placeholder="Transaction ID / UTR number">
+      <button class="modal-wa-btn" onclick="confirmPayment()">💬 Send confirmation on WhatsApp →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const UPI_ID = 'yourname@okaxis'; // ← Replace with your UPI VPA
+const WA_NUMBER = '919XXXXXXXXX';  // ← Replace with your WhatsApp number (91 + 10 digits)
+
+const semesterData = [
+  { num:'01', title:'Semester I',    muTag:'MU 2026', subjects:'Human Anatomy · Pharm Chemistry I · Pharmaceutics I · Communication Skills', link:'#' },
+  { num:'02', title:'Semester II',   muTag:'MU 2026', subjects:'Biochemistry · Pharmaceutics II · Pharm Chemistry II · Computer Applications', link:'#' },
+  { num:'03', title:'Semester III',  muTag:'MU 2026', subjects:'Pharmacognosy I · Pharm Chemistry III · Pharmacology I · Pharmaceutical Engineering', link:'#' },
+  { num:'04', title:'Semester IV',   muTag:'MU 2026', subjects:'Pharmacognosy II · Pharmacology II · Pharm Chemistry IV · Pathophysiology', link:'#' },
+  { num:'05', title:'Semester V',    muTag:'MU 2026', subjects:'Medicinal Chemistry I · Industrial Pharmacy · Pharmacology III · Jurisprudence', link:'#' },
+  { num:'06', title:'Semester VI',   muTag:'MU 2026', subjects:'Medicinal Chemistry II · Pharmacology IV · Herbal Drug Technology · NDDS', link:'#' },
+  { num:'07', title:'Semester VII',  muTag:'MU 2026', subjects:'Biopharmaceutics · Cosmetics & Cosmeceuticals · Instrumental Analysis · Social Pharmacy', link:'#' },
+  { num:'08', title:'Semester VIII', muTag:'MU 2026', subjects:'Regulatory Affairs · Clinical Research · Entrepreneurship · Project Work', link:'#' }
+];
+
+const bundleData = [
+  { sem:'Semester II', title:'Organic Chemistry + Analysis Bundle', desc:'The hardest Sem II combo — solved PYQs, short notes, 1-day plan for both subjects together.', includes:['Organic Chemistry full notes','Pharmaceutical Analysis PYQs','1-day crash schedule','10 expected long answers'], price:99, old:199, tag:'hot', tagLabel:'Bestseller', btn:'dark', highlight:false },
+  { sem:'Semester IV', title:'Pharmacology II + Pharmacognosy II', desc:'Two of the most scoring MU subjects — notes with drug classification tables and biological source charts.', includes:['Full Pharmacology II notes','Pharmacognosy source & uses table','MU PYQ 2019–2024','Mnemonic sheets'], price:149, old:299, tag:'val', tagLabel:'Best value', btn:'dark', highlight:true },
+  { sem:'Semester V', title:'Medicinal Chemistry + Industrial Pharmacy', desc:'SAR charts, synthesis routes and formulation flow diagrams — exactly what MU asks every year.', includes:['Medicinal Chemistry SAR notes','Industrial Pharmacy formulation guide','Expected 5-mark questions','Jurisprudence quick revision'], price:99, old:199, tag:'new', tagLabel:'New', btn:'outline', highlight:false },
+  { sem:'Semester III', title:'Pharmacology I Exam Night Pack', desc:'Crash pack for Pharm I — ANS, CVS, antimicrobials with receptor tables and MOA summaries.', includes:['ANS + CVS drug classification charts','Antibiotic MOA comparison table','Top 20 expected questions','2-mark quick answer sheet'], price:49, old:99, tag:'hot', tagLabel:'Only ₹49', btn:'dark', highlight:false },
+  { sem:'All Semesters', title:'GPAT Foundation Pack', desc:'Cross-semester high-yield topics that appear in GPAT. Build your base while still in college.', includes:['High-yield GPAT topic summary','MCQ practice bank (250 Qs)','Subject-wise weightage analysis','Formulae & constants reference'], price:199, old:399, tag:'new', tagLabel:'New', btn:'dark', highlight:false },
+  { sem:'Semester VI', title:'NDDS + Herbal Drug Technology', desc:'Two modern subjects MU has been pushing — complete theory and expected questions for both.', includes:['NDDS full notes','Herbal technology notes','MU PYQs 2022–2024','Comparison tables & diagrams'], price:99, old:199, tag:'val', tagLabel:'Scoring', btn:'outline', highlight:false }
+];
+
+const searchIndex = [];
+semesterData.forEach(s => {
+  searchIndex.push({ label:s.title, sub:s.subjects, link:'#semesters' });
+  s.subjects.split('·').forEach(sub => searchIndex.push({ label:sub.trim(), sub:s.title+' — MU 2026', link:'#semesters' }));
+});
+bundleData.forEach(b => searchIndex.push({ label:b.title, sub:b.sem+' · ₹'+b.price, link:'#bundles' }));
+
+function renderSemesters() {
+  const grid = document.getElementById('semester-grid');
+  grid.innerHTML = semesterData.map((s, i) => {
+    const noRight = (i+1) % 4 === 0 ? 'border-right:none;' : 'border-right:1px solid var(--border);';
+    const topBorder = i >= 4 ? 'border-top:1px solid var(--border);' : '';
+    return `<a href="${s.link}" class="sem-card" style="${noRight}${topBorder}">
+      <div class="sem-num">${s.num}</div>
+      <div class="sem-title">${s.title}</div>
+      <div class="sem-mu-tag">${s.muTag} Syllabus</div>
+      <div class="sem-subjects">${s.subjects}</div>
+      <div class="sem-arrow">↗</div>
+    </a>`;
+  }).join('');
+}
+
+function renderBundles() {
+  const tagClass = { hot:'tag-hot', new:'tag-new', val:'tag-val' };
+  document.getElementById('bundles-grid').innerHTML = bundleData.map(b => `
+    <div class="bundle-card${b.highlight?' highlight':''} reveal">
+      <span class="bundle-tag ${tagClass[b.tag]}">${b.tagLabel}</span>
+      <div class="bundle-sem">${b.sem}</div>
+      <div class="bundle-title">${b.title}</div>
+      <div class="bundle-desc">${b.desc}</div>
+      <ul class="bundle-includes">${b.includes.map(i=>`<li>${i}</li>`).join('')}</ul>
+      <div class="bundle-price-row">
+        <span class="bundle-price">₹${b.price}</span>
+        <span class="bundle-old">₹${b.old}</span>
+      </div>
+      <button class="bundle-btn ${b.btn==='dark'?'bundle-btn-dark':'bundle-btn-outline'}" onclick="openPayment(${b.price},'${b.title.replace(/'/g,"\\'")}')">
+        Buy now — ₹${b.price}
+      </button>
+    </div>`).join('');
+  setTimeout(() => document.querySelectorAll('.reveal').forEach(el => obs.observe(el)), 50);
+}
+
+// Search
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { searchResults.style.display='none'; return; }
+  const hits = searchIndex.filter(i => i.label.toLowerCase().includes(q) || i.sub.toLowerCase().includes(q)).slice(0,6);
+  if (!hits.length) { searchResults.style.display='none'; return; }
+  searchResults.innerHTML = hits.map(h =>
+    `<div class="search-result-item" onclick="location.href='${h.link}';searchInput.value='';searchResults.style.display='none'">
+      ${h.label}<span class="res-label">${h.sub}</span>
+    </div>`).join('');
+  searchResults.style.display='block';
+});
+document.addEventListener('click', e => { if (!searchInput.contains(e.target)&&!searchResults.contains(e.target)) searchResults.style.display='none'; });
+
+// Payment
+let currentAmount=299, currentTitle='';
+function generateUPILink(amount, title) {
+  return `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent('PharmaVault')}&tn=${encodeURIComponent('Notes_For_'+title.replace(/\s/g,'_'))}&am=${amount}&cu=INR`;
+}
+function openPayment(amount, title) {
+  currentAmount=amount; currentTitle=title;
+  document.getElementById('modalAmount').textContent='₹'+amount;
+  document.getElementById('modalSubText').textContent=`Pay ₹${amount} for "${title}" — notes delivered to your WhatsApp within 10 minutes.`;
+  document.getElementById('payModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePayment() {
+  document.getElementById('payModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function triggerUPI(app) {
+  const link = generateUPILink(currentAmount, currentTitle);
+  if (/Android|iPhone|iPad/i.test(navigator.userAgent)) { window.location.href=link; }
+  else { alert(`On your phone, this opens ${app} directly.\n\nTo pay manually:\nUPI ID: ${UPI_ID}\nAmount: ₹${currentAmount}\n\nThen send screenshot on WhatsApp.`); }
+}
+function copyUPI() {
+  navigator.clipboard.writeText(UPI_ID).then(() => {
+    document.getElementById('copyBtn').style.display='none';
+    document.getElementById('copiedBtn').style.display='block';
+    setTimeout(() => { document.getElementById('copyBtn').style.display='block'; document.getElementById('copiedBtn').style.display='none'; }, 2000);
+  });
+}
+function confirmPayment() {
+  const name=document.getElementById('payerName').value.trim();
+  const wa=document.getElementById('payerWA').value.trim();
+  const txn=document.getElementById('payerTxn').value.trim();
+  if (!name||!wa) { alert('Please enter your name and WhatsApp number.'); return; }
+  const msg=encodeURIComponent(`Hi PharmaVault! 👋\n\nI just paid ₹${currentAmount} for "${currentTitle}".\n\nName: ${name}\nWhatsApp: ${wa}\nTransaction ID: ${txn||'Sending screenshot separately'}\n\nPlease send me the notes. 🙏`);
+  window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`,'_blank');
+  closePayment();
+}
+function openWA(item) {
+  const msg=encodeURIComponent(`Hi PharmaVault! 👋\nI'm interested in: ${item}\nCan you help me? 🙏`);
+  window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`,'_blank');
+}
+document.getElementById('payModal').addEventListener('click', e => { if(e.target===document.getElementById('payModal')) closePayment(); });
+
+// Predictor
+function runPredictor() {
+  const sem=document.getElementById('predSem').value;
+  const subj=document.getElementById('predSubj').value;
+  if (!sem||!subj) { alert('Please select both semester and subject.'); return; }
+  document.getElementById('predText').innerHTML=`Our model is analyzing Mumbai University <strong>${subj}</strong> papers for <strong>${sem}</strong> (2019–2024).<br><br>
+  🚀 <strong>Full predictions coming in 2026</strong> — we're training the algorithm on 5 years of MU exam patterns right now.<br><br>
+  Meanwhile, get our <strong>manually curated expected questions</strong> — built from the same paper analysis by a B.Pharm student who's sat these exact exams. <a href="#bundles" style="color:var(--accent);font-weight:600;text-decoration:none">View bundles →</a>`;
+  document.getElementById('predResult').style.display='block';
+}
+
+// Upload tab
+function switchTab(el) { document.querySelectorAll('.utab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
+
+// Drag & drop
+const dz=document.querySelector('.drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='rgba(152,193,217,0.8)'});
+dz.addEventListener('dragleave',()=>{dz.style.borderColor=''});
+dz.addEventListener('drop',e=>{e.preventDefault();dz.style.borderColor='';const f=e.dataTransfer.files[0];if(f)dz.querySelector('.drop-text').innerHTML=`<strong>${f.name}</strong><br>${(f.size/1024/1024).toFixed(2)} MB — ready to upload`});
+document.getElementById('fileInput').addEventListener('change',e=>{const f=e.target.files[0];if(f)dz.querySelector('.drop-text').innerHTML=`<strong>${f.name}</strong><br>${(f.size/1024/1024).toFixed(2)} MB — ready to upload`});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Init
+renderSemesters();
+renderBundles();
+</script>
+</body>
+</html>
